@@ -5,7 +5,7 @@
   --max-width: 100%;
   --min-height: 100vh;
   --form-max-width: 400px;
-
+  --wrapper-max-width: 1200px;
 
   /* Color palette */
   --clr-primary: #007bff;
@@ -58,4 +58,25 @@ body {
   line-height: 1.5;
   color: #333;
   background-color: #fff;
+}
+
+.wrapper {
+  max-width: var(--wrapper-max-width);
+  margin: 0 auto;
+}
+
+header .wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header h2 {
+  font-size: var(--font-size-md);
+  text-transform: uppercase;
+}
+
+header .user-info {
+  font-size: var(--font-size-md);
+  color: var(--clr-primary);
 }
