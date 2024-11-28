@@ -9,12 +9,13 @@ import { useCsvLoader } from "../../hooks/useCsvLoader";
 import { Loader } from "../../components/Loader/Loader";
 import { useToast } from "../../contexts/ToastContext";
 import { useNavigate } from "react-router-dom";
-
+import { useAuth } from "../../contexts/AuthContext";
 const Login = () => {
   const [csvData, csvError] = useCsvLoader(csvFile);
   const [loginInput, setLoginInput] = useState({ Username: "", Password: "" });
   const toast = useToast();
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const isLoading = !csvData || csvData.length <= 0;
   // console.log(isLoading);
@@ -35,8 +36,9 @@ const Login = () => {
         user.Username === loginInput.Username &&
         user.Password === loginInput.Password
     );
-    console.log(isUser);
+    // console.log(isUser);
     if (!isUser) return toast.error("Invalid credentials");
+    login(isUser);
     toast.success("Login successful!");
     navigate("/");
   };

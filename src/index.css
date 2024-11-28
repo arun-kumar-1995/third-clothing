@@ -80,3 +80,15 @@ header .user-info {
   font-size: var(--font-size-md);
   color: var(--clr-primary);
 }
+
+header .btn-logout {
+  background: transparent;
+  font-size: var(--font-size-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin-left: var(--spacing-lg);
+}
+
+header .btn-logout:hover {
+  outline: 1px solid var(--clr-secondary);
+  border-radius: var(--radius-sm);
+}
