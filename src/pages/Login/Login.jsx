@@ -1,28 +1,56 @@
+import { useEffect, useState, useCallback } from "react";
 import "./Login.css";
 import { FaRegUser } from "react-icons/fa6";
 import { MdLockOutline } from "react-icons/md";
-import Papa from "papaparse";
-import { useEffect, useState } from "react";
+
 import csvFile from "../../data/users.csv?raw";
 import { useCsvLoader } from "../../hooks/useCsvLoader";
+
 import { Loader } from "../../components/Loader/Loader";
 import { useToast } from "../../contexts/ToastContext";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
   const [csvData, csvError] = useCsvLoader(csvFile);
-  const [loginInput, setLoginInput] = useState({ username: "", password: "" });
+  const [loginInput, setLoginInput] = useState({ Username: "", Password: "" });
   const toast = useToast();
+  const navigate = useNavigate();
 
-  const handleLoginInput = (e) => {
+  const isLoading = !csvData || csvData.length <= 0;
+  // console.log(isLoading);
+
+  const handleLoginInput = useCallback((e) => {
     const { name, value } = e.target;
     setLoginInput((prev) => ({ ...prev, [name]: value }));
-  };
+  }, []);
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    console.log(loginInput);
-    toast.success("Okay ");
+
+    if (!loginInput.Username || !loginInput.Password)
+      return toast.error("Both Username and password are required");
+
+    const isUser = csvData.find(
+      (user) =>
+        user.Username === loginInput.Username &&
+        user.Password === loginInput.Password
+    );
+    console.log(isUser);
+    if (!isUser) return toast.error("Invalid credentials");
+    toast.success("Login successful!");
+    navigate("/");
   };
   // console.log(csvData);
+
+  if (isLoading) return <Loader />;
+
+  if (csvError) {
+    return (
+      <div className="error-message">
+        <p>Error loading user data, please try again later.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="login-container">
@@ -42,9 +70,10 @@ const Login = () => {
               <input
                 type="text"
                 placeholder="Enter username"
-                value={loginInput.username}
-                name="username"
+                value={loginInput.Username}
+                name="Username"
                 onChange={handleLoginInput}
+                required
               />
             </div>
             <div className="form-group">
@@ -55,9 +84,10 @@ const Login = () => {
               <input
                 type="password"
                 placeholder="Enter password"
-                value={loginInput.password}
-                name="password"
+                value={loginInput.Password}
+                name="Password"
                 onChange={handleLoginInput}
+                required
               />
             </div>
             <button type="submit">Submit</button>
