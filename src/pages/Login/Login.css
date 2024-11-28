@@ -88,11 +88,11 @@ form {
 .form-section .form-group input {
   background: transparent;
   padding: var(--spacing-sm);
-  width: 100%;
+  width: var(--max-width);
   font-size: var(--font-size-sm);
 }
 
-.form-section button[type="button"] {
+.form-section button[type="submit"] {
   margin-top: var(--spacing-md);
   background-color: var(--clr-primary);
   color: var(--clr-white);
@@ -102,6 +102,6 @@ form {
   font-size: var(--font-size-sm);
 }
 
-.form-section button[type="button"]:hover {
+.form-section button[type="submit"]:hover {
   background-color: #0056b3;
 }
