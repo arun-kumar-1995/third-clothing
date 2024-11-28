@@ -5,21 +5,24 @@ import Papa from "papaparse";
 import { useEffect, useState } from "react";
 import csvFile from "../../data/users.csv?raw";
 import { useCsvLoader } from "../../hooks/useCsvLoader";
-
+import { Loader } from "../../components/Loader/Loader";
+import { useToast } from "../../contexts/ToastContext";
 const Login = () => {
   const [csvData, csvError] = useCsvLoader(csvFile);
   const [loginInput, setLoginInput] = useState({ username: "", password: "" });
+  const toast = useToast();
 
   const handleLoginInput = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     setLoginInput((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleLoginSubmit = (e) =>{
+  const handleLoginSubmit = (e) => {
     e.preventDefault();
     console.log(loginInput);
-
-  }
+    toast.success("Okay ");
+  };
+  // console.log(csvData);
 
   return (
     <div className="login-container">
